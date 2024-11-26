@@ -4,9 +4,9 @@
 ### DATA - Load, visualize, split, normalize, one-hot encode
 ###
 
-import kagglehub
-path = kagglehub.dataset_download("nikhilgurav21/nail-disease-detection-dataset")
-print("Path to dataset files:", path)
+# import kagglehub
+# path = kagglehub.dataset_download("nikhilgurav21/nail-disease-detection-dataset")
+# print("Path to dataset files:", path)
 
 import os
 import numpy as np
@@ -59,7 +59,7 @@ def preprocess_data(X, y, num_classes):
     return X_normalized, y_encoded
 
 if __name__ == "__main__":
-    dataset_dir = "/root/.cache/kagglehub/datasets/nikhilgurav21/nail-disease-detection-dataset/versions/1/data"
+    dataset_dir = "./data"
 
     X_train, y_train, classes = load_dataset(dataset_dir, subset='train')
     X_val, y_val, _ = load_dataset(dataset_dir, subset='validation')
@@ -111,6 +111,20 @@ def build_model(num_classes):
 
     model = Model(inputs=base_model.input, outputs=predictions)
     return model
+
+
+dataset_dir = "./data"
+train_dir = os.path.join(dataset_dir, 'train')
+validation_dir = os.path.join(dataset_dir, 'validation')
+
+X_train, y_train, classes = load_dataset(dataset_dir, subset='train')
+X_val, y_val, _ = load_dataset(dataset_dir, subset='validation')
+
+
+num_classes = len(classes)
+
+X_train, y_train = preprocess_data(X_train, y_train, num_classes)
+X_val, y_val = preprocess_data(X_val, y_val, num_classes)
 
 
 model = build_model(num_classes)
